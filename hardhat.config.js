@@ -3,7 +3,23 @@ require("@nomiclabs/hardhat-etherscan");
 require("@openzeppelin/hardhat-upgrades");
 require("dotenv").config();
 
-const {MUMBAI_NETWROK, PRIVATE_KEY_1, MUMBAI_API} = process.env;
+const {
+  MUMBAI_NETWROK, 
+  PRIVATE_KEY_1, 
+  MUMBAI_API, 
+  AME_TESTNET_NETWORK, 
+  AME_TESTNET_PRIVATE_KEY, 
+  FIREFLY_PRIVATE_KEY_1, 
+  LEO_PRIVATE_KEY,
+  BHARATH_FIREFLY_PRIVATE_KEY_1,
+  FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
+  FIREFLY_BLOCKCHAIN_PRIVATE_KEY_TEST,
+  PRIVATE_BLOCKCHAIN_NETWORK,
+  PRIVATE_BLOCKCHAIN_NETWORK_2,
+  FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW,
+  PRIVATE_BLOCKCHAIN_NETWORK_OWN,
+  FIREFLY_OWN_KEY
+      } = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -23,7 +39,28 @@ module.exports = {
   networks: {
     mumbai: {
       url: MUMBAI_NETWROK,
-      accounts: [PRIVATE_KEY_1],
+      accounts: [
+        PRIVATE_KEY_1,
+        // FIREFLY_PRIVATE_KEY_1,
+        // LEO_PRIVATE_KEY,
+        // BHARATH_FIREFLY_PRIVATE_KEY_1,
+        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1
+      ],
+    },
+    ame_testnet: {
+      url: AME_TESTNET_NETWORK,
+      accounts: [AME_TESTNET_PRIVATE_KEY],
+    },
+    dc_network: {
+      // url: PRIVATE_BLOCKCHAIN_NETWORK,
+      url: PRIVATE_BLOCKCHAIN_NETWORK_OWN,
+      // url: PRIVATE_BLOCKCHAIN_NETWORK_2,
+      accounts: [
+        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
+        FIREFLY_OWN_KEY,
+        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_TEST,
+        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW
+      ],
     }
   },
   etherscan : {

@@ -1,8 +1,18 @@
 {
   "name": "hardhat-project",
   "scripts": {
-    "test1": "npx hardhat run scripts/test1.js --network mumbai"
-  },
+    "test1": "npx hardhat run scripts/test1.js --network mumbai",
+    "test2": "npx hardhat run scripts/test2.js --network ame_testnet",
+    "storage": "npx hardhat run scripts/storage.js --network mumbai",
+    "coupon": "npx hardhat run scripts/Projects/coupon.js --network mumbai",
+    "coupontest": "npx hardhat run scripts/Projects/coupontest.js --network mumbai",
+    "register": "npx hardhat run scripts/Hackathon/register.js --network mumbai",
+    "reg": "npx hardhat run scripts/Projects/reg.js --network mumbai",
+    "credential": "npx hardhat run scripts/Projects/credential.js --network mumbai",
+    "dc-reg": "npx hardhat run scripts/Projects/reg.js --network dc_network",
+    "dc-coupon": "npx hardhat run scripts/Projects/coupon.js --network dc_network",
+    "dc-credential": "npx hardhat run scripts/Projects/credential.js --network dc_network"
+    },
   "devDependencies": {
     "@ethersproject/providers": "^5.7.2",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",

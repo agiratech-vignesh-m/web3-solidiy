@@ -1,0 +1,182 @@
+// SPDX-License-Identifier: MIT
+/*
+
+  /$$$$$$                            /$$                       /$$     /$$           /$$ /$$                    
+ /$$__  $$                          | $$                      | $$    |__/          | $$|__/                    
+| $$  \__/  /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$$  /$$$$$$   /$$  /$$$$$$ | $$ /$$ /$$$$$$$   /$$$$$$ 
+| $$       /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$| $$__  $$|_  $$_/  | $$ |____  $$| $$| $$| $$__  $$ /$$__  $$
+| $$      | $$  \__/| $$$$$$$$| $$  | $$| $$$$$$$$| $$  \ $$  | $$    | $$  /$$$$$$$| $$| $$| $$  \ $$| $$  \ $$
+| $$    $$| $$      | $$_____/| $$  | $$| $$_____/| $$  | $$  | $$ /$$| $$ /$$__  $$| $$| $$| $$  | $$| $$  | $$
+|  $$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$| $$  | $$  |  $$$$/| $$|  $$$$$$$| $$| $$| $$  | $$|  $$$$$$$
+ \______/ |__/       \_______/ \_______/ \_______/|__/  |__/   \___/  |__/ \_______/|__/|__/|__/  |__/ \____  $$
+                                                                                                       /$$  \ $$
+                                                                                                      |  $$$$$$/
+                                                                                                       \______/
+
+*/
+pragma solidity ^0.8.9;
+
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/utils/Strings.sol';
+import './RegistrationContract.sol';
+
+contract CredentialingContract is Ownable {
+
+    /*
+    It saves bytecode to revert on custom errors instead of using require
+    statements. We are just declaring these errors for reverting with upon various
+    conditions later in this contract. Thanks, Chiru Labs!
+    */
+    error DriverAddressIsNotLinkedToCoupon();    
+    error DataNotAvailable();
+    error NotAnAdmin();
+    error SameDataAlreadyStored();
+    error AccessNotGranted();
+
+    // type - Address
+    address[] private adminAddresses;
+    address private registrationConc;
+
+    // type - uint
+    uint public Credential_Stored = 202;
+    uint public Credential_Edited = 204;
+
+    // type - Event
+    event DataCredentialized(bytes32 indexed _unlockKey, address indexed _driver, uint indexed _status);
+    event DataCredentialEdited(address indexed _driver, uint indexed _NoOfTimesEdited, uint indexed _status);
+
+    // type - Mapping
+    mapping(address => mapping(string => bool)) private storeCredentails;
+    mapping(address => bool) private admins;
+    mapping(address => CredentializeData) private allInfo;
+    mapping(address => mapping(string => bool)) private whetherIpfsAndAddressLinked;
+    mapping(address => bytes32) private unlockKey;
+    mapping(address => mapping(bytes32 => bool)) private accessKey;
+    mapping(address => bool) private accessForRead;
+
+    // type - Modifier
+    modifier onlyAdmin () {
+    if (_msgSender() != owner() && !admins[_msgSender()]) {
+      revert NotAnAdmin();
+    }
+        _;
+    }
+
+    // type - Struct
+    struct CredentializeData{
+        address driverAddress;
+        string[] ipfsURL;
+        uint count;
+    }
+
+    /**
+     * @notice Used for verification
+     * @param _registrationContract - Pass the registration contract address
+     */
+    constructor(address _registrationContract) {
+        registrationConc = _registrationContract;
+    }
+
+    /**
+     * @notice admin can call this function to register a driver
+     * @dev modifier onlyAdmin is used here. only one of the registered admins can call this function
+     * @param _ad add address of admins to the contract.
+     */
+    function addAdmin(address _ad) external onlyAdmin{
+        admins[_ad] = true;
+        adminAddresses.push(_ad);
+    }
+
+    /**
+     * @notice enter the credentialing details for the driver
+     * @dev only one of the registered admins can call this function
+     * @param _driverAddress - Pass the driver wallet address.
+     * @param _ipfsUrl - Pass the ipfs url respective to the driver.
+     */
+    function credentialize(address _driverAddress, string memory _ipfsUrl) external onlyAdmin{
+        RegistrationContract regDriver = RegistrationContract(registrationConc);
+        require(regDriver.isDriverRegistered(_driverAddress), "The address is not registered in the registration contract");
+        bytes32 packedData = keccak256(abi.encodePacked(_driverAddress));
+        if(storeCredentails[_driverAddress][_ipfsUrl]){
+            revert SameDataAlreadyStored();
+        }
+        allInfo[_driverAddress].driverAddress = _driverAddress;
+        allInfo[_driverAddress].ipfsURL.push(_ipfsUrl);
+        allInfo[_driverAddress].count += 1;
+        storeCredentails[_driverAddress][_ipfsUrl] = true;
+        whetherIpfsAndAddressLinked[_driverAddress][_ipfsUrl] = true;
+        unlockKey[_driverAddress] = packedData;
+        accessKey[_driverAddress][packedData] = true;
+        emit DataCredentialized(packedData, _driverAddress, Credential_Stored);
+    }
+
+    /**
+     * editCredential - Edit the credential for the users.
+     * @param _driverAddress - Enter the driver wallet address.
+     * @param _ipfsUrl - Enter the new IPFS url. 
+     */
+    function editCredential(address _driverAddress, string memory _ipfsUrl) external onlyAdmin{
+        RegistrationContract regDriver = RegistrationContract(registrationConc);
+        require(regDriver.isDriverRegistered(_driverAddress), "The address is not registered in the registration contract");
+        allInfo[_driverAddress].ipfsURL.push(_ipfsUrl);
+        allInfo[_driverAddress].count += 1;
+        whetherIpfsAndAddressLinked[_driverAddress][_ipfsUrl] = true;
+        emit DataCredentialEdited(_driverAddress, allInfo[_driverAddress].count, Credential_Edited);
+    }
+
+    /**
+     * getReadAccess - The driver is expected give access to read the URLS.
+     * @param _driverAddress - Enter the driver address.
+     */
+    function getReadAccess(address _driverAddress) public returns(bool status){
+        RegistrationContract regDriver = RegistrationContract(registrationConc);
+        require(regDriver.isDriverRegistered(_driverAddress), "The address is not registered in the registration contract");
+        require(msg.sender == _driverAddress);
+        if(accessKey[_driverAddress][unlockKey[_driverAddress]]){
+            accessForRead[msg.sender] = true;
+            status = true;
+            return status;
+        }else{
+            status = false;
+            return status;
+        }
+    }
+
+    /**
+     * viewAllIpfsURL - If permission is granted then the user can view the IPFS urls.
+     * @param _driverAddress - Enter the driver address.
+     */
+    function viewAllIpfsURL(address _driverAddress) public view returns(string[] memory allUrls){
+        if(accessForRead[_driverAddress]){
+            return allInfo[_driverAddress].ipfsURL;
+        }else{
+            revert ("Access not provided by the driver yet");
+        }
+    }
+    
+    /**
+     * @notice returns the detailed struct of credentials
+     * @param _driverAddress pass the bytes32 value from the event.
+     */
+    function viewCredentialAddedTimes(address _driverAddress) external view 
+    returns( uint totalNumberOfTimesEdited){
+        return allInfo[_driverAddress].count;
+    }
+
+    /**
+     * whetherAddressAndIpfsLinked - Checks wether the address and ipfs is linked.
+     * @param _driverAddress - Enter the driver wallet address.
+     * @param _ipfsUrl - Pass the ipfs url respective to the driver.
+     */
+    function whetherAddressAndIpfsLinked(address _driverAddress, string memory _ipfsUrl) public view 
+    returns (bool linked){
+        if(whetherIpfsAndAddressLinked[_driverAddress][_ipfsUrl]){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+}
+
