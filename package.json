@@ -11,8 +11,15 @@
     "credential": "npx hardhat run scripts/Projects/credential.js --network mumbai",
     "dc-reg": "npx hardhat run scripts/Projects/reg.js --network dc_network",
     "dc-coupon": "npx hardhat run scripts/Projects/coupon.js --network dc_network",
-    "dc-credential": "npx hardhat run scripts/Projects/credential.js --network dc_network"
-    },
+    "dc-credential": "npx hardhat run scripts/Projects/credential.js --network dc_network",
+    "proxy-box": "npx hardhat run scripts/proxy/box.js --network mumbai",
+    "proxy-box-v2": "npx hardhat run scripts/proxy/box2.js --network mumbai",
+    "proxy-box-v3": "npx hardhat run scripts/proxy/box3.js --network mumbai",
+    "proxy-register": "npx hardhat run scripts/projects/eventbrite/register.js --network mumbai"
+
+
+
+  },
   "devDependencies": {
     "@ethersproject/providers": "^5.7.2",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
@@ -30,12 +37,12 @@
   },
   "dependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
-    "@nomiclabs/hardhat-ethers": "^2.2.2",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
-    "@openzeppelin/contracts": "^4.8.2",
+    "@openzeppelin/contracts": "^4.9.2",
     "@openzeppelin/contracts-ethereum-package": "^3.0.0",
-    "@openzeppelin/contracts-upgradeable": "^4.8.2",
-    "@openzeppelin/hardhat-upgrades": "^1.22.1",
+    "@openzeppelin/contracts-upgradeable": "^4.9.2",
+    "@openzeppelin/hardhat-upgrades": "^1.28.0",
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "hardhat-contract-sizer": "^2.8.0",

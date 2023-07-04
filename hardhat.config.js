@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-etherscan");
 require("@openzeppelin/hardhat-upgrades");
+require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
 const {
@@ -34,6 +35,24 @@ module.exports = {
           },
         },
       },
+      {
+        version: "0.8.9",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+      {
+        version: "0.8.18",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      }
     ],
   },
   networks: {
@@ -52,12 +71,12 @@ module.exports = {
       accounts: [AME_TESTNET_PRIVATE_KEY],
     },
     dc_network: {
-      // url: PRIVATE_BLOCKCHAIN_NETWORK,
-      url: PRIVATE_BLOCKCHAIN_NETWORK_OWN,
+      url: PRIVATE_BLOCKCHAIN_NETWORK,
+      // url: PRIVATE_BLOCKCHAIN_NETWORK_OWN,
       // url: PRIVATE_BLOCKCHAIN_NETWORK_2,
       accounts: [
-        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
-        FIREFLY_OWN_KEY,
+        FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
+        // FIREFLY_OWN_KEY,
         // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_TEST,
         // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW
       ],

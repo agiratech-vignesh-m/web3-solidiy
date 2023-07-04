@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-
-
 /*
 
   /$$$$$$   /$$                     /$$                       /$$     /$$$$$$$                      /$$             /$$                          /$$     /$$                          
@@ -21,9 +15,11 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 */
 
+pragma solidity ^0.8.9;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
+contract StudentRegistration is Ownable{
 
     /*
         It saves bytecode to revert on custom errors instead of using require
@@ -32,6 +28,7 @@ contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeab
     */
     error inputConnectedWalletAddress();
     error addressAlreadyRegistered();
+    error idAlreadyTaken();
 
    
     mapping(address => mapping(uint256 => bool)) private studentLinkToID;
@@ -40,6 +37,8 @@ contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeab
     mapping(uint256 => string) private idTopassword;
     mapping(uint256 => bool) private idVerification;
     mapping(uint => address) private idToUserAddress;
+
+    uint[] private allIds;
     address[] private pushStudents;
 
 
@@ -56,22 +55,30 @@ contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeab
     }
 
 
-    function initialize() external initializer{
-      ///@dev as there is no constructor, we need to initialise the OwnableUpgradeable explicitly
-       __Ownable_init();
-    }
+    // function initialize() external initializer{
+    //   ///@dev as there is no constructor, we need to initialise the OwnableUpgradeable explicitly
+    //    __Ownable_init();
+    // }
+
+    // function _authorizeUpgrade(address) internal override onlyOwner {}
+
 
     function equal(string memory a, string memory b) internal pure returns (bool) {
         return keccak256(bytes(a)) == keccak256(bytes(b));
     }
 
-    function _authorizeUpgrade(address) internal override onlyOwner {}
+    
     
     
     function addStudent(StudentInformation memory _studentInfo) external{
         StudentInformation memory si = _studentInfo;
         if(msg.sender != si.walletAddress){ revert inputConnectedWalletAddress();}
         if(studentLinkToID[msg.sender][si.studentID] == true){ revert addressAlreadyRegistered();}
+        for(uint i = 0; i < allIds.length; i++){
+            if(si.studentID == allIds[i]){
+                revert idAlreadyTaken();
+            }
+        }
         studentLinkToID[msg.sender][si.studentID] = true;
         studentInfostruct[msg.sender][si.studentID].firstName = si.firstName;
         studentInfostruct[msg.sender][si.studentID].lastName = si.lastName;
@@ -84,6 +91,7 @@ contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeab
         idVerification[si.studentID] = true;
         idToId[si.studentID] = si.studentID;
         idTopassword[si.studentID] = si.password;
+        allIds.push(studentInfostruct[msg.sender][si.studentID].studentID);
         pushStudents.push(msg.sender);
         emit StudentRegistered(studentInfostruct[msg.sender][si.studentID].mailID, "Student is Registered Successfully");
     }
@@ -129,7 +137,8 @@ contract StudentRegistration is Initializable, UUPSUpgradeable, OwnableUpgradeab
             verificationStatus = true;
             return verificationStatus;
         }else{
-            revert("The login details is mismatching with registration details");
+            verificationStatus = false;
+            return verificationStatus;
         }
     }
 
