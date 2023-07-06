@@ -260,3 +260,21 @@ contract DreamLighter {
 //         return allBrokers;
 // }
 }
+
+
+// Get all details in struct
+/*
+function getAllUserDetails() external view returns (UserInformation[] memory userInfos) {
+    userInfos = new UserInformation[](autoIds.length);
+
+    for (uint i = 0; i < autoIds.length; i++) {
+        uint userId = autoIds[i];
+        address userAddress = linkIdToUserAddress[userId];
+
+        UserInformation memory userInfo = userInfostruct[userAddress][userId];
+        userInfos[i] = userInfo;
+    }
+
+    return userInfos;
+}
+*/

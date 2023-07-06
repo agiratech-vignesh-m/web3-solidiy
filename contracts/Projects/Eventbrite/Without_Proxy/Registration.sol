@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.9;
 
+contract Registration {
 
-contract AutoGenerate {
-
-    //error
+    // error
     error addressMismatching();
 
-    uint public autoGenerateId = 1000;
-    uint[] public autoIds;
-    address[] public allUserAddresses;
-    UserAddressAndIdDetails[] public userDetails;
+    // state variables
+    uint private autoGenerateId = 1000;
+    uint[] private autoIds;
+    address[] private allUserAddresses;
+    UserAddressAndIdDetails[] private userDetails;
 
-    // string private name;
+    // Events
+    event UserRegistered(uint indexed _userId, address indexed _userAddress, uint indexed _status);
+
+    // structs
 
      struct UserInformation{
         string firstName;
@@ -28,12 +31,16 @@ contract AutoGenerate {
         uint userId;
     }
 
+    // mappings
+
     mapping(address => mapping(uint => bool)) private checkUserAddressAndIdLinked;
     mapping(address => mapping(uint => UserInformation)) private userInfostruct;
     mapping(uint => address) private linkIdToUserAddress;
+    mapping(address => uint) private linkUserAddressToId;
 
 
-    function Add( UserInformation memory _userInfo) public {
+    // need to add the Wallet address validation 
+    function addUser( UserInformation memory _userInfo) public {
         UserInformation memory ui = _userInfo;
 
         if (msg.sender != ui.walletAddress){
@@ -52,12 +59,39 @@ contract AutoGenerate {
         
         allUserAddresses.push(ui.walletAddress);
         linkIdToUserAddress[autoGenerateId] = ui.walletAddress;
-        
+        linkUserAddressToId[ui.walletAddress] = autoGenerateId;
         checkUserAddressAndIdLinked[ui.walletAddress][autoGenerateId] = true;
 
         userDetails.push(UserAddressAndIdDetails(ui.walletAddress, autoGenerateId));
-
+        emit UserRegistered(autoGenerateId, ui.walletAddress, 200);
     }
+    /*  
+        checkUserAddressAndIdLinked[newAddress][linkUserAddressToId[msg.sender]] = true;
+    */
+
+    // function will add new wallet for the user and push it to the array
+    
+    function addWalletAddress(address _newAddress) public {
+    require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+
+    uint userId = linkUserAddressToId[msg.sender];
+    require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is already linked to the same user ID");
+
+    linkUserAddressToId[_newAddress] = userId;
+    checkUserAddressAndIdLinked[_newAddress][userId] = true;
+    allUserAddresses.push(_newAddress);
+    userDetails.push(UserAddressAndIdDetails(_newAddress, userId));
+    }
+
+    // function addAdditionalWalletAddress(address _newAddress) public {
+    // require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+
+    // uint userId = linkUserAddressToId[msg.sender];
+    // require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is not linked to the same user ID");
+
+    // linkUserAddressToId[_newAddress] = userId;
+    // checkUserAddressAndIdLinked[_newAddress][userId] = true;
+    // }
 
     function getAllIds() public view returns (uint[] memory autoId){
         return autoIds;
@@ -78,7 +112,7 @@ contract AutoGenerate {
         userInfostruct[_userAddress][_userId].firstName,
         userInfostruct[_userAddress][_userId].lastName,
         userInfostruct[_userAddress][_userId].email,
-        userInfostruct[_userAddress][_userId].phoneNumber,
+        userInfostruct[_userAddress][_userId].phoneNumber,  
         userInfostruct[_userAddress][_userId].walletAddress
         );
 
@@ -103,12 +137,6 @@ contract AutoGenerate {
 //         userInfostruct[autoIds[i]].phoneNumber;
 //         userInfostruct[autoIds[i]].walletAddress;
 //         userDetails[i] = userInfo;
-
-            // brokerInfo.id = brokerStruct[brokerIds[i]].id;
-            // brokerInfo.firstName = brokerStruct[brokerIds[i]].firstName;
-            // brokerInfo.lastName = brokerStruct[brokerIds[i]].lastName;
-            // brokerInfo._address = brokerStruct[brokerIds[i]]._address;
-            // detailss[i] = userInfo;
 //     }
 //     return userDetails;
 // }
@@ -123,7 +151,8 @@ contract AutoGenerate {
         return userDetail;
     }
 
-    // Get all address
+    // Listing all ID and address
+    
     function getAllUserAddresses() external view returns (address[] memory userAddresses){
         return allUserAddresses;
     }
@@ -132,9 +161,7 @@ contract AutoGenerate {
     //     return (allUserAddresses, autoIds);
     // }
 
-
-    
-    // Listing all ID and address
+    // Get all address
 
     // method 1
 

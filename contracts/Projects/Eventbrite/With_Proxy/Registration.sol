@@ -35,11 +35,17 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
         uint userId;
     }
 
+    //  struct NewWalletAddress {
+    //     address newWalletAddress;
+    // }
+
     // mappings
 
     mapping(address => mapping(uint => bool)) private checkUserAddressAndIdLinked;
+    mapping(address => mapping(address => bool)) private checkOldAddressAndNewAddressLinked;
     mapping(address => mapping(uint => UserInformation)) private userInfostruct;
     mapping(uint => address) private linkIdToUserAddress;
+    mapping(address => uint) private linkUserAddressToId;
 
 
     function initialize() external initializer{
@@ -50,6 +56,7 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
 
+    // need to add the Wallet address validation 
     function addUser( UserInformation memory _userInfo) public {
         UserInformation memory ui = _userInfo;
 
@@ -69,12 +76,45 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
         
         allUserAddresses.push(ui.walletAddress);
         linkIdToUserAddress[autoGenerateId] = ui.walletAddress;
-        
+        linkUserAddressToId[ui.walletAddress] = autoGenerateId;
         checkUserAddressAndIdLinked[ui.walletAddress][autoGenerateId] = true;
 
         userDetails.push(UserAddressAndIdDetails(ui.walletAddress, autoGenerateId));
         emit UserRegistered(autoGenerateId, ui.walletAddress, 200);
     }
+    /*  
+        checkUserAddressAndIdLinked[newAddress][linkUserAddressToId[msg.sender]] = true;
+    */
+
+    // function addAdditionalWalletAddress(address _newAddress) public {
+    //     require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+    //     linkUserAddressToId[_newAddress] = linkUserAddressToId[msg.sender];
+    //     checkUserAddressAndIdLinked[_newAddress][linkUserAddressToId[msg.sender]] = true;
+    // }
+
+    // function addAdditionalWalletAddress(address _newAddress) public {
+    // require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+
+    // uint userId = linkUserAddressToId[msg.sender];
+    // require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is not linked to the same user ID");
+
+    // linkUserAddressToId[_newAddress] = userId;
+    // checkUserAddressAndIdLinked[_newAddress][userId] = true;
+    // }
+
+    function addWalletAddress(address _newAddress) public {
+    require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+
+    uint userId = linkUserAddressToId[msg.sender];
+    require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is already linked to the same user ID");
+
+    linkUserAddressToId[_newAddress] = userId;
+    checkUserAddressAndIdLinked[_newAddress][userId] = true;
+    checkOldAddressAndNewAddressLinked[msg.sender][_newAddress] = true;
+
+    allUserAddresses.push(_newAddress);
+    userDetails.push(UserAddressAndIdDetails(_newAddress, userId));
+}
 
     function getAllIds() public view returns (uint[] memory autoId){
         return autoIds;
@@ -83,6 +123,11 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
     function checkUserVerification(address _userAddress, uint _userID) external view returns(bool){
         return checkUserAddressAndIdLinked[_userAddress][_userID];
     }
+
+    function checkAddressVerification(address _oldAddress, address _newAddress) external view returns(bool){
+        return checkOldAddressAndNewAddressLinked[_oldAddress][_newAddress];
+    }
+
 
     function getUserDetails( address _userAddress, uint256 _userId) external view returns(
         string memory firstName,
@@ -126,13 +171,13 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
 
     // Get all user details
 
-    function getAllUserDetails() external view returns (UserInformation[] memory) {
-        UserInformation[] memory userDetail = new UserInformation[](autoIds.length);
-        for (uint i = 0; i < autoIds.length; i++) {
-            userDetail[i] = userInfostruct[linkIdToUserAddress[autoIds[i]]][autoIds[i]];
-        }
-        return userDetail;
-    }
+    // function getAllUserDetails() external view returns (UserInformation[] memory) {
+    //     UserInformation[] memory userDetail = new UserInformation[](autoIds.length);
+    //     for (uint i = 0; i < autoIds.length; i++) {
+    //         userDetail[i] = userInfostruct[linkIdToUserAddress[autoIds[i]]][autoIds[i]];
+    //     }
+    //     return userDetail;
+    // }
 
     // Listing all ID and address
     
