@@ -15,7 +15,14 @@
     "proxy-box": "npx hardhat run scripts/proxy/box.js --network mumbai",
     "proxy-box-v2": "npx hardhat run scripts/proxy/box2.js --network mumbai",
     "proxy-box-v3": "npx hardhat run scripts/proxy/box3.js --network mumbai",
+
     "proxy-register": "npx hardhat run scripts/Projects/eventbrite/with_proxy/register.js --network mumbai",
+    "proxy-ticmet": "npx hardhat run scripts/Projects/eventbrite/with_proxy/ticmet.js --network mumbai",
+    "proxy-ticketing": "npx hardhat run scripts/Projects/eventbrite/with_proxy/ticketing.js --network mumbai",
+
+    "sepolia-register": "npx hardhat run scripts/Projects/eventbrite/without_proxy/register.js --network sepolia",
+    "sepolia-ticket": "npx hardhat run scripts/Projects/eventbrite/without_proxy/tickets.js --network sepolia",
+    "sepolia-token": "npx hardhat run scripts/Projects/eventbrite/without_proxy/coin.js --network sepolia",
     "event-register": "npx hardhat run scripts/Projects/eventbrite/without_proxy/register.js --network mumbai",
     "event-ticket": "npx hardhat run scripts/Projects/eventbrite/without_proxy/tickets.js --network mumbai",
     "event-token": "npx hardhat run scripts/Projects/eventbrite/without_proxy/coin.js --network mumbai"

@@ -9,7 +9,7 @@ const {
   PRIVATE_KEY_1, 
   MUMBAI_API, 
   AME_TESTNET_NETWORK, 
-  AME_TESTNET_PRIVATE_KEY, 
+  AME_TESTNET_PRIVATE_KEY,
   FIREFLY_PRIVATE_KEY_1, 
   LEO_PRIVATE_KEY,
   BHARATH_FIREFLY_PRIVATE_KEY_1,
@@ -19,7 +19,9 @@ const {
   PRIVATE_BLOCKCHAIN_NETWORK_2,
   FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW,
   PRIVATE_BLOCKCHAIN_NETWORK_OWN,
-  FIREFLY_OWN_KEY
+  FIREFLY_OWN_KEY,
+  SEPOLIA_API,
+  SEPOLIA_NETWROK
       } = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -66,6 +68,26 @@ module.exports = {
         // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1
       ],
     },
+    // sepolia: {
+    //   url: SEPOLIA_NETWROK,
+    //   accounts: [
+    //     PRIVATE_KEY_1,
+    //     // FIREFLY_PRIVATE_KEY_1,
+    //     // LEO_PRIVATE_KEY,
+    //     // BHARATH_FIREFLY_PRIVATE_KEY_1,
+    //     // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1
+    //   ],
+    // },
+    // goerli: {
+    //   url: GOERLI_NETWROK,
+    //   accounts: [
+    //     PRIVATE_KEY_1,
+    //     // FIREFLY_PRIVATE_KEY_1,
+    //     // LEO_PRIVATE_KEY,
+    //     // BHARATH_FIREFLY_PRIVATE_KEY_1,
+    //     // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1
+    //   ],
+    // },
     ame_testnet: {
       url: AME_TESTNET_NETWORK,
       accounts: [AME_TESTNET_PRIVATE_KEY],
@@ -75,16 +97,18 @@ module.exports = {
       // url: PRIVATE_BLOCKCHAIN_NETWORK_OWN,
       // url: PRIVATE_BLOCKCHAIN_NETWORK_2,
       accounts: [
-        FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
+        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_1,
         // FIREFLY_OWN_KEY,
         // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_TEST,
-        // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW
+        FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW
       ],
     }
   },
   etherscan : {
     apiKey : {
       polygonMumbai:MUMBAI_API,
+      // sepolia:SEPOLIA_API,
     },
   },
+  
 };

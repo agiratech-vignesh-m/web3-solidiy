@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
@@ -35,9 +35,9 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
         uint userId;
     }
 
-    //  struct NewWalletAddress {
-    //     address newWalletAddress;
-    // }
+     struct NewWalletAddress {
+        address[] newWalletAddress;
+    }
 
     // mappings
 
@@ -46,6 +46,7 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
     mapping(address => mapping(uint => UserInformation)) private userInfostruct;
     mapping(uint => address) private linkIdToUserAddress;
     mapping(address => uint) private linkUserAddressToId;
+    mapping(address => bool) private userVerify;
 
 
     function initialize() external initializer{
@@ -78,42 +79,23 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
         linkIdToUserAddress[autoGenerateId] = ui.walletAddress;
         linkUserAddressToId[ui.walletAddress] = autoGenerateId;
         checkUserAddressAndIdLinked[ui.walletAddress][autoGenerateId] = true;
-
+        userVerify[msg.sender] = true;
         userDetails.push(UserAddressAndIdDetails(ui.walletAddress, autoGenerateId));
         emit UserRegistered(autoGenerateId, ui.walletAddress, 200);
     }
-    /*  
-        checkUserAddressAndIdLinked[newAddress][linkUserAddressToId[msg.sender]] = true;
-    */
-
-    // function addAdditionalWalletAddress(address _newAddress) public {
-    //     require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
-    //     linkUserAddressToId[_newAddress] = linkUserAddressToId[msg.sender];
-    //     checkUserAddressAndIdLinked[_newAddress][linkUserAddressToId[msg.sender]] = true;
-    // }
-
-    // function addAdditionalWalletAddress(address _newAddress) public {
-    // require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
-
-    // uint userId = linkUserAddressToId[msg.sender];
-    // require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is not linked to the same user ID");
-
-    // linkUserAddressToId[_newAddress] = userId;
-    // checkUserAddressAndIdLinked[_newAddress][userId] = true;
-    // }
 
     function addWalletAddress(address _newAddress) public {
-    require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
+        require(checkUserAddressAndIdLinked[msg.sender][linkUserAddressToId[msg.sender]], "User is not verified");
 
-    uint userId = linkUserAddressToId[msg.sender];
-    require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is already linked to the same user ID");
+        uint userId = linkUserAddressToId[msg.sender];
+        require(!checkUserAddressAndIdLinked[_newAddress][userId], "New address is already linked to the same user ID");
 
-    linkUserAddressToId[_newAddress] = userId;
-    checkUserAddressAndIdLinked[_newAddress][userId] = true;
-    checkOldAddressAndNewAddressLinked[msg.sender][_newAddress] = true;
+        linkUserAddressToId[_newAddress] = userId;
+        checkUserAddressAndIdLinked[_newAddress][userId] = true;
+        checkOldAddressAndNewAddressLinked[msg.sender][_newAddress] = true;
 
-    allUserAddresses.push(_newAddress);
-    userDetails.push(UserAddressAndIdDetails(_newAddress, userId));
+        allUserAddresses.push(_newAddress);
+        userDetails.push(UserAddressAndIdDetails(_newAddress, userId));
 }
 
     function getAllIds() public view returns (uint[] memory autoId){
@@ -128,78 +110,54 @@ contract Registration is Initializable, UUPSUpgradeable, OwnableUpgradeable{
         return checkOldAddressAndNewAddressLinked[_oldAddress][_newAddress];
     }
 
-
-    function getUserDetails( address _userAddress, uint256 _userId) external view returns(
-        string memory firstName,
-        string memory lastName,
-        string memory email,
-        uint256 phoneNumber,
-        address walletAddress
-        ){
-        return (
-        userInfostruct[_userAddress][_userId].firstName,
-        userInfostruct[_userAddress][_userId].lastName,
-        userInfostruct[_userAddress][_userId].email,
-        userInfostruct[_userAddress][_userId].phoneNumber,  
-        userInfostruct[_userAddress][_userId].walletAddress
-        );
-
+      function getAllUserAddresses() external view returns (address[] memory userAddresses){
+        return allUserAddresses;
     }
 
+    
+    function getAllUserAddressesAndIds() external view returns (UserAddressAndIdDetails[] memory usersAddressesAndId){
+    return userDetails;
+    }
+
+    function verifyUser(address _ad) external view returns(bool state){
+        return userVerify[_ad];
+    }
+
+    // function getUserDetails( address _userAddress, uint256 _userId) external view returns(
+    //     string memory firstName,
+    //     string memory lastName,
+    //     string memory email,
+    //     uint256 phoneNumber,
+    //     address walletAddress
+    //     ){
+    //     return (
+    //     userInfostruct[_userAddress][_userId].firstName,
+    //     userInfostruct[_userAddress][_userId].lastName,
+    //     userInfostruct[_userAddress][_userId].email,
+    //     userInfostruct[_userAddress][_userId].phoneNumber,  
+    //     userInfostruct[_userAddress][_userId].walletAddress
+    //     );
+
+    // }
+ 
     function getUserDetailsStruct( address _userAddress, uint256 _userId) external view returns(
         UserInformation memory _userDetails){
         return (
         userInfostruct[_userAddress][_userId]
         );
     }
-
-//     function getAllUserDetails() external view returns (UserInformation[] memory _allUderDetails)
-//     {    
-//     UserInformation[] memory userDetails = new UserInformation[](autoIds.length);
-//     for (uint i = 0; i < autoIds.length; i++) {
-//         UserInformation memory userInfo;
-            
-//         userInfo.firstName = userInfostruct[autoIds[i]].firstName;
-//         userInfostruct[autoIds[i]].lastName;
-//         userInfostruct[autoIds[i]].email;
-//         userInfostruct[autoIds[i]].phoneNumber;
-//         userInfostruct[autoIds[i]].walletAddress;
-//         userDetails[i] = userInfo;
-//     }
-//     return userDetails;
-// }
-
-    // Get all user details
-
-    // function getAllUserDetails() external view returns (UserInformation[] memory) {
-    //     UserInformation[] memory userDetail = new UserInformation[](autoIds.length);
-    //     for (uint i = 0; i < autoIds.length; i++) {
-    //         userDetail[i] = userInfostruct[linkIdToUserAddress[autoIds[i]]][autoIds[i]];
-    //     }
-    //     return userDetail;
-    // }
-
-    // Listing all ID and address
     
-    function getAllUserAddresses() external view returns (address[] memory userAddresses){
-        return allUserAddresses;
+    function getAllUserDetails() external view returns (UserInformation[] memory userInfos) {
+    userInfos = new UserInformation[](autoIds.length);
+
+    for (uint i = 0; i < autoIds.length; i++) {
+        uint userId = autoIds[i];
+        address userAddress = linkIdToUserAddress[userId];
+
+        UserInformation memory userInfo = userInfostruct[userAddress][userId];
+        userInfos[i] = userInfo;
     }
 
-    // function getAllUserAddressesAndIds() public view returns (address[] memory userAddresses, uint[] memory userId){
-    //     return (allUserAddresses, autoIds);
-    // }
-
-    // Get all address
-
-    // method 1
-
-    // function getAllUserAddressesAndIds() public view returns (address[] memory userAddresses, uint[] memory userId){
-    //     return (allUserAddresses, autoIds);
-    // }
-
-    function getAllUserAddressesAndIds() external view returns (UserAddressAndIdDetails[] memory usersAddressesAndId){
-    return userDetails;
-    }
-
-    //UUPS
+    return userInfos;
+}
 }

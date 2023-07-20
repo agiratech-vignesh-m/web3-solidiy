@@ -4,11 +4,11 @@ async function deployScript(){
 
     console.log("Deploying the custom Eventbrite Ticketing contract ::");
 
-    const Register = await ethers.getContractFactory("contracts/Projects/Eventbrite/Without_Proxy/Tickets.sol:Ticketing");
-    const register = await Register.deploy("0xB0C6295409222c28d212137FD824e92f9ed425aC", "0x31501056fc90FDc737F861B743F4124B63adE0C7");
-    await register.deployed();
+    const Ticket = await ethers.getContractFactory("contracts/Projects/Eventbrite/Without_Proxy/Tickets.sol:Ticketing");
+    const ticket = await Ticket.deploy("0x7Fcc2c26c9874384d7803B53448f3a12E1eDC962", "0x0054C565d4dbe9ebe2C6241CC19E6d0150f5BB8f");
+    await ticket.deployed();
 
-    console.log("The deployed custom Eventbrite Ticketing smart contract address =>  ", register.address);
+    console.log("The deployed custom Eventbrite Ticketing smart contract address =>  ", ticket.address);
 }
 
 deployScript();
