@@ -21,7 +21,10 @@ const {
   PRIVATE_BLOCKCHAIN_NETWORK_OWN,
   FIREFLY_OWN_KEY,
   SEPOLIA_API,
-  SEPOLIA_NETWROK
+  SEPOLIA_NETWROK,
+  DL_NETWORK,
+  DL_PRIVATE_KEY_1,
+  DL_PRIVATE_KEY_2
       } = process.env;
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -101,6 +104,13 @@ module.exports = {
         // FIREFLY_OWN_KEY,
         // FIREFLY_BLOCKCHAIN_PRIVATE_KEY_TEST,
         FIREFLY_BLOCKCHAIN_PRIVATE_KEY_NEW
+      ],
+    },
+    dl_network: {
+      url: DL_NETWORK,
+      accounts: [
+        // DL_PRIVATE_KEY_1,
+        DL_PRIVATE_KEY_2
       ],
     }
   },

@@ -15,6 +15,21 @@
       "address": "0xc91B3fa5908E618b61b9d588dBBD1634F7e4D2ca",
       "txHash": "0x26421f226e2a43ebc0a5373944694fb462b4288176d6c7a662988f277e22ee1c",
       "kind": "uups"
+    },
+    {
+      "address": "0x1DF9822BB1F1B106Dd13747Efadab71e5240EB9D",
+      "txHash": "0xd2630a9c137f6094d779e0026fb18fdb32109132ec0af23c6c4165b7c7afbc08",
+      "kind": "uups"
+    },
+    {
+      "address": "0xA569A3d929d65df6aC41A38645e950448D63e596",
+      "txHash": "0xbc8ded06fd0a9c412dacdbcfe26f46ce852978955fe5b5456eb3ab1109127504",
+      "kind": "uups"
+    },
+    {
+      "address": "0x60CE6c26FF7CaA8093e1fDABa125B5B14F53160C",
+      "txHash": "0x8a3f9a10547505e91dbced1a2b90a22fb55edfa1fdd2fcf479b7996d7bb5ef5e",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -670,6 +685,448 @@
             "numberOfBytes": "32"
           },
           "t_struct(EventInformation)7743_storage": {
+            "label": "struct Ticketing.EventInformation",
+            "members": [
+              {
+                "label": "eventTitle",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "venue",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "startDate",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "endDate",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "ticketsQuantity",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "ticketPrice",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "maxTicketPerPerson",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "publishTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "b865e75cee1fa95d64b1051763e31c96c103660abc14de59d9afd3b1a03dca63": {
+      "address": "0x356588c49976E3931CAf1a17763ee102398f9E87",
+      "txHash": "0xc642533de217e0cb27e976968d5995faf178f25e095fad9b1ac44f3b93b6fbff",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:169"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:111"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_string_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:25"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_string_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:28"
+          },
+          {
+            "label": "_owners",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:31"
+          },
+          {
+            "label": "_balances",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:34"
+          },
+          {
+            "label": "_tokenApprovals",
+            "offset": 0,
+            "slot": "255",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:37"
+          },
+          {
+            "label": "_operatorApprovals",
+            "offset": 0,
+            "slot": "256",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_bool))",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "257",
+            "type": "t_array(t_uint256)44_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol:477"
+          },
+          {
+            "label": "contractAdmin",
+            "offset": 0,
+            "slot": "301",
+            "type": "t_address",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:22"
+          },
+          {
+            "label": "registrationContract",
+            "offset": 0,
+            "slot": "302",
+            "type": "t_address",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:23"
+          },
+          {
+            "label": "EVNT",
+            "offset": 0,
+            "slot": "303",
+            "type": "t_address",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:24"
+          },
+          {
+            "label": "paymentAddress",
+            "offset": 0,
+            "slot": "304",
+            "type": "t_address",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:25"
+          },
+          {
+            "label": "autoGenerateId",
+            "offset": 0,
+            "slot": "305",
+            "type": "t_uint256",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:27"
+          },
+          {
+            "label": "nftId",
+            "offset": 0,
+            "slot": "306",
+            "type": "t_uint256",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:28"
+          },
+          {
+            "label": "ticketPriceWei",
+            "offset": 0,
+            "slot": "307",
+            "type": "t_uint256",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:29"
+          },
+          {
+            "label": "nftIds",
+            "offset": 0,
+            "slot": "308",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:31"
+          },
+          {
+            "label": "autoIds",
+            "offset": 0,
+            "slot": "309",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:32"
+          },
+          {
+            "label": "ticketsCountForEvents",
+            "offset": 0,
+            "slot": "310",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:33"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "311",
+            "type": "t_string_storage",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:35"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "312",
+            "type": "t_string_storage",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:36"
+          },
+          {
+            "label": "linkIdToEvent",
+            "offset": 0,
+            "slot": "313",
+            "type": "t_mapping(t_uint256,t_struct(EventInformation)5089_storage)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:38"
+          },
+          {
+            "label": "linkEventIdToTicketQuantity",
+            "offset": 0,
+            "slot": "314",
+            "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_bool))",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:39"
+          },
+          {
+            "label": "eventPubTime",
+            "offset": 0,
+            "slot": "315",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:40"
+          },
+          {
+            "label": "eventStartTime",
+            "offset": 0,
+            "slot": "316",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:41"
+          },
+          {
+            "label": "eventEndTime",
+            "offset": 0,
+            "slot": "317",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:42"
+          },
+          {
+            "label": "eventMapName",
+            "offset": 0,
+            "slot": "318",
+            "type": "t_mapping(t_uint256,t_string_storage)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:43"
+          },
+          {
+            "label": "adminBalanceAssociatedToEvent",
+            "offset": 0,
+            "slot": "319",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:44"
+          },
+          {
+            "label": "restrictMaxBuyForUser",
+            "offset": 0,
+            "slot": "320",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:45"
+          },
+          {
+            "label": "perEventCollection",
+            "offset": 0,
+            "slot": "321",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:46"
+          },
+          {
+            "label": "forQrVerification",
+            "offset": 0,
+            "slot": "322",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_bool))",
+            "contract": "Ticketing",
+            "src": "contracts/Projects/Eventbrite/With_Proxy/Ticketing.sol:47"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)44_storage": {
+            "label": "uint256[44]",
+            "numberOfBytes": "1408"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+            "label": "mapping(address => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_uint256))": {
+            "label": "mapping(address => mapping(uint256 => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_bool)": {
+            "label": "mapping(uint256 => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_bool))": {
+            "label": "mapping(uint256 => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_uint256,t_bool))": {
+            "label": "mapping(uint256 => mapping(uint256 => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(EventInformation)5089_storage)": {
+            "label": "mapping(uint256 => struct Ticketing.EventInformation)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(EventInformation)5089_storage": {
             "label": "struct Ticketing.EventInformation",
             "members": [
               {

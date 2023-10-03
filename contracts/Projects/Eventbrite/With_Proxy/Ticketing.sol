@@ -82,7 +82,7 @@ contract Ticketing is Initializable, UUPSUpgradeable, OwnableUpgradeable, ERC721
         contractAdmin = msg.sender;
         registrationContract = _registrationContract;
         EVNT = _evntTokenAddress;
-        paymentAddress = 0xb9Bc22C3dF733F9bF44da3644e118386195c154A;
+        paymentAddress = 0x31591603F3a10c9E4984329E8bFC3F40DB95acc1;
         autoGenerateId = 100;
         nftId = 100000;
         __Ownable_init();

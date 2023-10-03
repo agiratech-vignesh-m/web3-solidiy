@@ -4,14 +4,19 @@
     "test1": "npx hardhat run scripts/test1.js --network mumbai",
     "test2": "npx hardhat run scripts/test2.js --network ame_testnet",
     "storage": "npx hardhat run scripts/storage.js --network mumbai",
-    "coupon": "npx hardhat run scripts/Projects/coupon.js --network mumbai",
-    "coupontest": "npx hardhat run scripts/Projects/coupontest.js --network mumbai",
+    "coupon": "npx hardhat run scripts/Projects/coupons/coupon.js --network mumbai",
     "register": "npx hardhat run scripts/Hackathon/register.js --network mumbai",
-    "reg": "npx hardhat run scripts/Projects/reg.js --network mumbai",
-    "credential": "npx hardhat run scripts/Projects/credential.js --network mumbai",
-    "dc-reg": "npx hardhat run scripts/Projects/reg.js --network dc_network",
-    "dc-coupon": "npx hardhat run scripts/Projects/coupon.js --network dc_network",
-    "dc-credential": "npx hardhat run scripts/Projects/credential.js --network dc_network",
+
+    "mumbai-coupon": "npx hardhat run scripts/Projects/coupons/coupon.js --network mumbai",
+    "mumbai-credential": "npx hardhat run scripts/Projects/coupons/credential.js --network mumbai",
+    
+
+    "dc-reg": "npx hardhat run scripts/Projects/coupons/reg.js --network dc_network",
+    "dc-coupon": "npx hardhat run scripts/Projects/coupons/coupon.js --network dc_network",
+    "dc-credential": "npx hardhat run scripts/Projects/coupons/credential.js --network dc_network",
+
+    "dl": "npx hardhat run scripts/Projects/dl/dl.js --network dl_network",
+
     "proxy-box": "npx hardhat run scripts/proxy/box.js --network mumbai",
     "proxy-box-v2": "npx hardhat run scripts/proxy/box2.js --network mumbai",
     "proxy-box-v3": "npx hardhat run scripts/proxy/box3.js --network mumbai",
@@ -20,9 +25,6 @@
     "proxy-ticmet": "npx hardhat run scripts/Projects/eventbrite/with_proxy/ticmet.js --network mumbai",
     "proxy-ticketing": "npx hardhat run scripts/Projects/eventbrite/with_proxy/ticketing.js --network mumbai",
 
-    "sepolia-register": "npx hardhat run scripts/Projects/eventbrite/without_proxy/register.js --network sepolia",
-    "sepolia-ticket": "npx hardhat run scripts/Projects/eventbrite/without_proxy/tickets.js --network sepolia",
-    "sepolia-token": "npx hardhat run scripts/Projects/eventbrite/without_proxy/coin.js --network sepolia",
     "event-register": "npx hardhat run scripts/Projects/eventbrite/without_proxy/register.js --network mumbai",
     "event-ticket": "npx hardhat run scripts/Projects/eventbrite/without_proxy/tickets.js --network mumbai",
     "event-token": "npx hardhat run scripts/Projects/eventbrite/without_proxy/coin.js --network mumbai"
